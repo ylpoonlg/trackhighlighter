@@ -31,6 +31,20 @@ nav #navbar-logo {
   margin: auto 10px;
 }
 
+nav .navbar-btn {
+  display: block;
+  margin: 0 10px;
+  padding: 0 20px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0);
+}
+nav .navbar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+
 #rail-map-wrapper {
   position: absolute;
   width: 100%;
@@ -68,7 +82,7 @@ nav #navbar-logo {
 .mode-button {
   font-size: 30px;
   background-color: #ddd;
-  color: #000000;
+  color: #555;
   margin: 0;
 }
 .mode-button:hover {
@@ -76,8 +90,8 @@ nav #navbar-logo {
 }
 
 /* MOBILE */
-@media screen and (max-width: 480px) {
-  nav #navbar-title {
+@media screen and (max-width: 512px) {
+  nav #navbar-title, nav #save-btn {
     display: none;
   }
 }

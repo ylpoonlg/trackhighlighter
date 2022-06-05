@@ -20,6 +20,11 @@ var isDrawing = false;
 var currentLine = [];
 var highlightLines = [];
 
+
+// Initialize
+onLoadMap();
+document.getElementById("view-btn").style.color = "#000";  // default mode
+
 // Create Map
 const map = L.map('rail-map', {
   center: defaultLoc,
@@ -100,7 +105,7 @@ const Coordinates = L.Control.extend({
     });
     map.addEventListener("mouseup", e => {
       isDrawing = false;
-      highlightLines.push(currentLine);
+      if (currentLine.length > 0) highlightLines.push(currentLine);
     });
 
     return container;
@@ -115,14 +120,24 @@ function selectMode(newMode) {
   if (mode === MODES.view) {
     map.dragging.enable();
     document.getElementById("rail-map").style.cursor = "grab";
+    document.getElementById("view-btn").style.color = "#000";
+    document.getElementById("draw-btn").style.color = "#555";
+    document.getElementById("erase-btn").style.color = "#555";
   } else if (mode === MODES.draw) {
     map.dragging.disable();
     document.getElementById("rail-map").style.cursor = "crosshair";
+    document.getElementById("view-btn").style.color = "#555";
+    document.getElementById("draw-btn").style.color = "#000";
+    document.getElementById("erase-btn").style.color = "#555";
   } else if (mode === MODES.erase) {
     map.dragging.disable();
     document.getElementById("rail-map").style.cursor = "no-drop";
+    document.getElementById("view-btn").style.color = "#555";
+    document.getElementById("draw-btn").style.color = "#555";
+    document.getElementById("erase-btn").style.color = "#000";
   }
 }
+
 
 function deleteLines(lat, lng) {
   let x1 = map.latLngToContainerPoint([lat, lng]).x;
@@ -142,7 +157,16 @@ function deleteLines(lat, lng) {
         tmp.push(latlng);
       }
     });
-    newLines.push(tmp);
+    if (tmp.length > 0) newLines.push(tmp);
   });
   highlightLines = newLines.concat([]);
+}
+
+function onSaveMap() {
+  localStorage.setItem("trkhl_lines", JSON.stringify(highlightLines));
+}
+
+function onLoadMap() {
+  let lines = localStorage.getItem("trkhl_lines");
+  highlightLines = lines==null ? [] : JSON.parse(lines);
 }

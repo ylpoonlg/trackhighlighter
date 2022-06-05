@@ -22,14 +22,16 @@
     <nav id="navbar">
       <div id="navbar-title">Track <span style="color: #ffff00;">Highlighter</span></div>
       <img id="navbar-logo" src="logo.png" />
+      <div style="margin-left: auto;"></div>
+      <button id="save-btn" class="navbar-btn" title="Save" onclick="onSaveMap();">Save</button>
     </nav>
 
     <div id="rail-map-wrapper">
       <div id="rail-map"></div>
       <div id="select-mode">
-        <button class="mode-button" title="View" onclick="selectMode(MODES.view);"><span class="material-icons">pan_tool</span></button>
-        <button class="mode-button" title="Highlight" onclick="selectMode(MODES.draw);"><span class="material-icons">mode_edit</span></button>
-        <button class="mode-button" title="Erase" onclick="selectMode(MODES.erase);"><span class="material-icons">backspace</span></button>
+        <button id="view-btn" class="mode-button" title="View" onclick="selectMode(MODES.view);"><span class="material-icons">pan_tool</span></button>
+        <button id="draw-btn" class="mode-button" title="Highlight" onclick="selectMode(MODES.draw);"><span class="material-icons">mode_edit</span></button>
+        <button id="erase-btn" class="mode-button" title="Erase" onclick="selectMode(MODES.erase);"><span class="material-icons">backspace</span></button>
       </div>
     </div>
 
