@@ -35,6 +35,7 @@ nav #navbar-logo {
   position: absolute;
   width: 100%;
   height: calc( 100% - 60px );
+  user-select: none;
 }
 #rail-map {
   position: absolute;
@@ -72,4 +73,11 @@ nav #navbar-logo {
 }
 .mode-button:hover {
   background-color: #aaa;
+}
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  nav #navbar-title {
+    display: none;
+  }
 }

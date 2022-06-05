@@ -77,13 +77,17 @@ const Coordinates = L.Control.extend({
       let lng = e.latlng.lng;
 
       if (mode === MODES.view) {
-      } else {
+      } else if (mode === MODES.draw) {
         if (isDrawing) {
-          console.log(`Drawing at: ${lat} ${lng}`);
           currentLine.push([lat, lng]);
           let tmpLines = highlightLines.concat([]);
           tmpLines.push(currentLine);
           highlightLayer.setLatLngs(tmpLines);
+        }
+      } else if (mode === MODES.erase) {
+        if (isDrawing) {
+          deleteLines(lat, lng);
+          highlightLayer.setLatLngs(highlightLines);
         }
       }
     });
@@ -118,4 +122,27 @@ function selectMode(newMode) {
     map.dragging.disable();
     document.getElementById("rail-map").style.cursor = "no-drop";
   }
+}
+
+function deleteLines(lat, lng) {
+  let x1 = map.latLngToContainerPoint([lat, lng]).x;
+  let y1 = map.latLngToContainerPoint([lat, lng]).y;
+  let eraserSize = 30;
+  let newLines = [];
+  highlightLines.forEach(line => {
+    let tmp = [];
+    line.forEach(latlng => {
+      let x2 = map.latLngToContainerPoint(latlng).x;
+      let y2 = map.latLngToContainerPoint(latlng).y;
+
+      console.log(x1-x2, y1-y2);
+
+      let dist = Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2); // in pixels
+      if (dist > Math.pow(eraserSize, 2)) { // Outside radius
+        tmp.push(latlng);
+      }
+    });
+    newLines.push(tmp);
+  });
+  highlightLines = newLines.concat([]);
 }
