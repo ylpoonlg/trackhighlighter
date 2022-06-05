@@ -1,0 +1,20 @@
+name: Deploy to linode ubuntu web
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ylpoonlg.com
+          username: admin
+          key: ${{ secrets.UBWB_PRIVATE }}
+          port: 22
+          script: |
+            cd ~/www/trackhighlighter
+            git pull origin master
