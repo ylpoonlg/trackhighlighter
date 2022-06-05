@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>Track Highlighter</title>
 
-    <link rel="stylesheet" href="./style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+    <!-- NAV -->
     <nav id="navbar">
-      <div>
-        <div id="navbar-title">Track <span style="color: #ffff00;">Highlighter</span></div>
-      </div>
+      <div id="navbar-title">Track <span style="color: #ffff00;">Highlighter</span></div>
+      <img id="navbar-logo" src="logo.png" />
     </nav>
 
-    <div id="rail-map"></div>
+    <div id="rail-map-wrapper">
+      <div id="rail-map"></div>
+      <div id="select-mode">
+        <button class="mode-button" title="View" onclick="selectMode(MODES.view);"><span class="material-icons">pan_tool</span></button>
+        <button class="mode-button" title="Highlight" onclick="selectMode(MODES.draw);"><span class="material-icons">mode_edit</span></button>
+        <button class="mode-button" title="Erase" onclick="selectMode(MODES.erase);"><span class="material-icons">backspace</span></button>
+      </div>
+    </div>
 
     <script src="./map.js"></script>
   </body>
