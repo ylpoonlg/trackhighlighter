@@ -19,5 +19,5 @@ jobs:
             cd ~/Git-Repos/trackhighlighter
             git pull origin master
             chmod +x trackhighlighter-run
-            killall -9 trackhighlighter-run
+            pkill -P $(pgrep trackhighlight)
             setsid ./trackhighlighter-run > /dev/null 2>&1 < /dev/null &
