@@ -16,5 +16,8 @@ jobs:
           key: ${{ secrets.UBWB_PRIVATE }}
           port: 22
           script: |
-            cd ~/www/trackhighlighter
+            cd ~/Git-Repos/trackhighlighter
             git pull origin master
+            chmod +x trackhighlighter-run
+            pkill -P $(pgrep trackhighlight)
+            setsid ./trackhighlighter-run > /dev/null 2>&1 < /dev/null &

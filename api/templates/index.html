@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="icon" href="logo.png" type="image/x-icon">
+    <link rel="icon" href="./static/logo.png" type="image/x-icon">
     <title>Track Highlighter</title>
 
     <meta charset="UTF-8">
@@ -15,13 +15,15 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./static/css/style.css" />
   </head>
   <body>
     <!-- NAV -->
     <nav id="navbar">
-      <div id="navbar-title">Track <span style="color: #ffff00;">Highlighter</span></div>
-      <img id="navbar-logo" src="logo.png" />
+      <div class="navbar-reload" onclick="location.reload();" style="display: flex;">
+        <div id="navbar-title">Track <span style="color: #ffff00;">Highlighter</span></div>
+        <img id="navbar-logo" src="./static/logo.png" />
+      </div>
       <div style="margin-left: auto;"></div>
       <button id="save-btn" class="navbar-btn" title="Save" onclick="onSaveMap();">Save</button>
     </nav>
@@ -35,6 +37,6 @@
       </div>
     </div>
 
-    <script src="./map.js"></script>
+    <script src="./static/js/map.js"></script>
   </body>
 </html>
