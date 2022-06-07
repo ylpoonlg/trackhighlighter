@@ -1,9 +1,12 @@
 import flask
 from flask import Flask, request, render_template
 import requests
+
+DEPLOY_LOCATION = "/trackhighlighter"
+
 app = Flask(__name__)
 
-@app.route('/api/tile/<s>/<z>/<x>/<y>')
+@app.route(DEPLOY_LOCATION + '/api/tile/<s>/<z>/<x>/<y>')
 def get_tile_url(s,z,x,y):
     url = f'http://{s}.tiles.openrailwaymap.org/signals/{z}/{x}/{y}.png'
     if url == None:
@@ -14,11 +17,11 @@ def get_tile_url(s,z,x,y):
     return response
 
 
-@app.route('/test')
+@app.route(DEPLOY_LOCATION + '/test')
 def test_page():
     return render_template("test.html")
 
-@app.route('/')
+@app.route(DEPLOY_LOCATION + '/')
 def home_page():
     return render_template("index.html")
 
