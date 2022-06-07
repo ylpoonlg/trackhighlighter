@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd api
+cd ~/Git-Repos/trackhighlighter/api
 python3 main.py
