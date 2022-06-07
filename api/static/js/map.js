@@ -62,6 +62,27 @@ map.on("mousedown", onMouseDown);
 map.on("mouseup", onMouseUp);
 map.on("mouseout", onMouseUp);
 
+document.addEventListener("touchstart", touchToMouse, true);
+document.addEventListener("touchend", touchToMouse, true);
+document.addEventListener("touchmove", touchToMouse, true);
+
+function touchToMouse(e) {
+  let type = "";
+  let touch = e.changedTouches[0];
+  let tmpEvent = document.createEvent("MouseEvent");
+
+  if (e.type === "touchstart") type = "mousedown";
+  else if (e.type === "touchend") type = "mouseup";
+  else if (e.type === "touchmove") type = "mousemove";
+  
+  tmpEvent.initMouseEvent(type, true, true, window, 1,
+    touch.screenX, touch.screenY, touch.clientX, touch.clientY,
+    false, false, false, false, 0, null);
+
+  touch.target.dispatchEvent(tmpEvent);
+  e.preventDefault();
+}
+
 function onMouseMove(e) {
   let lat = e.latlng.lat;
   let lng = e.latlng.lng;
