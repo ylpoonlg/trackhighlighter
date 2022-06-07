@@ -6,6 +6,7 @@ const MODES = {
   draw: "draw",
   erase: "erase",
 };
+const PEN_RAD = 50;
 
 const HIGHLIGHT_SETTINGS = {
   color: '#ffff00',
@@ -69,12 +70,13 @@ function onMouseMove(e) {
   if (mode === MODES.view) {
   } else if (mode === MODES.draw) {
     if (isDrawing) { // Drawing Control
-      if (isRailTrack(lat, lng, zoom)) {
-        currentLine.push([lat, lng]);
+      let trackData = isRailTrack(lat, lng, zoom);
+      if (trackData.isTrack) {
+        currentLine.push([trackData.lat, trackData.lng]);
         let tmpLines = highlightLines.concat([]);
         tmpLines.push(currentLine);
         highlightLayer.setLatLngs(tmpLines);
-      } else {
+      } else {  // Pen up if not on track
         if (currentLine.length > 0) highlightLines.push(currentLine);
         currentLine = [];
       }
@@ -116,7 +118,7 @@ function xyToLatlng(x, y, z) {
 function isRailTrack(lat, lng, zoom) {
   let xyz = latlngToXY(lat, lng, zoom);
   let tileurl = openrailwaymap.getTileUrl(xyz);
-  let tileLatlng = xyToLatlng(xyz.x, xyz.y, xyz.z);
+  let tileLatlng = xyToLatlng(xyz.x, xyz.y, xyz.z); // latlng of the top left pixel
 
   let tile = document.getElementsByClassName("railmap-container")[0].querySelector(`[src='${tileurl}']`);
   let tileSize = 512;
@@ -127,28 +129,48 @@ function isRailTrack(lat, lng, zoom) {
   let context = canvas.getContext('2d');
 
   context.drawImage(tile, 0, 0);
-  let dx = parseInt(Math.floor(tileSize * (lng - tileLatlng.lng) / (xyToLatlng(xyz.x+1, xyz.y, xyz.z).lng - tileLatlng.lng)));
-  let dy = parseInt(Math.floor(tileSize * (tileLatlng.lat - lat) / (tileLatlng.lat - xyToLatlng(xyz.x, xyz.y+1, xyz.z).lat)));
-  let rad = 30;
-  dx -= rad/2;
-  dy -= rad/2;
-  dx = Math.max(0, Math.min(dx, tileSize-rad));
-  dy = Math.max(0, Math.min(dy, tileSize-rad));
-  let pixels = context.getImageData(dx, dy, rad, rad).data;
+  let dTileLng = xyToLatlng(xyz.x+1, xyz.y, xyz.z).lng - tileLatlng.lng;
+  let dTileLat = tileLatlng.lat - xyToLatlng(xyz.x, xyz.y+1, xyz.z).lat;
+  let dx = parseInt(Math.floor(tileSize * (lng - tileLatlng.lng) / dTileLng));
+  let dy = parseInt(Math.floor(tileSize * (tileLatlng.lat - lat) / dTileLat));
+  dx -= PEN_RAD/2;
+  dy -= PEN_RAD/2;
+  dx = Math.max(0, Math.min(dx, tileSize-PEN_RAD));
+  dy = Math.max(0, Math.min(dy, tileSize-PEN_RAD));
+  let pixels = context.getImageData(dx, dy, PEN_RAD, PEN_RAD).data;
 
   let isTrack = false;
+  let trackLat, trackLng, trackDist = Number.POSITIVE_INFINITY;
   for (var i=0; i < pixels.length; i+=4) {
     let a = pixels[i+3];
     if (a > 0) {
       isTrack = true;
-      break;
+
+      let px = dx + (i / 4) % PEN_RAD;
+      let py = dy + parseInt(Math.floor((i / 4) / PEN_RAD));
+      let tmpLng = tileLatlng.lng + dTileLng * (px / tileSize);
+      let tmpLat = tileLatlng.lat - dTileLat * (py / tileSize);
+
+      let dist = Math.pow(tmpLng - lng, 2) + Math.pow(tmpLat - lat, 2);
+      if (dist < trackDist) {  // Get the closest track
+        trackLat = tmpLat;
+        trackLng = tmpLng;
+        trackDist = dist;
+      }
+      //break;
     }
   }
 
   // console.log(tileurl, dx, dy, isTrack);
+  
+  console.log(lat, lng, " | ", trackLat, trackLng);
 
   canvas.remove();
-  return isTrack;
+  return {
+    isTrack: isTrack,
+    lat: trackLat,
+    lng: trackLng,
+  };
 }
 
 
@@ -183,17 +205,26 @@ function deleteLines(lat, lng) {
   let eraserSize = 30;
   let newLines = [];
   highlightLines.forEach(line => {
-    let tmp = [];
+    let before = [];
+    let after = [];
+    let isAfter = false;
     line.forEach(latlng => {
       let x2 = map.latLngToContainerPoint(latlng).x;
       let y2 = map.latLngToContainerPoint(latlng).y;
 
       let dist = Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2); // in pixels
       if (dist > Math.pow(eraserSize, 2)) { // Outside radius
-        tmp.push(latlng);
+        if (isAfter) {
+          after.push(latlng);
+        } else {
+          before.push(latlng);
+        }
+      } else {
+        isAfter = true;
       }
     });
-    if (tmp.length > 0) newLines.push(tmp);
+    if (before.length > 0) newLines.push(before);
+    if (after.length > 0) newLines.push(after);
   });
   highlightLines = newLines.concat([]);
 }
