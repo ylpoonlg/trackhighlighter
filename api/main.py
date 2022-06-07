@@ -1,10 +1,14 @@
 import flask
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 import requests
 
 DEPLOY_LOCATION = "/trackhighlighter"
 
 app = Flask(__name__)
+
+@app.route(DEPLOY_LOCATION + '/static/<path:path>')
+def serve_static_files(path):
+    return send_from_directory('static', path)
 
 @app.route(DEPLOY_LOCATION + '/api/tile/<s>/<z>/<x>/<y>')
 def get_tile_url(s,z,x,y):
