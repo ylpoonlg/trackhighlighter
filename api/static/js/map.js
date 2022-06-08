@@ -264,13 +264,14 @@ function onLoadMap() {
 }
 
 function setLocation() {
-  geoip2.city((response) => {
-      let lat = response["location"]["latitude"];
-      let lon = response["location"]["longitude"];
-      //console.log(lat, lon);
-      map.setView([lat, lon], defaultZoom);
-  }, (error) => {
-      console.log(error);
+  navigator.geolocation.getCurrentPosition((pos) => {
+    console.log(pos);
+    let lat = pos.coords.latitude;
+    let lng = pos.coords.longitude;
+    map.setView([lat, lng], defaultZoom);
+  }, (err) => {
+    console.log("Failed to get location:", err);
+  }, {
+    timeout:20000
   });
-
 }
