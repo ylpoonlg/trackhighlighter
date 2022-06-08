@@ -22,10 +22,6 @@ var currentLine = [];
 var highlightLines = [];
 
 
-// Initialize
-onLoadMap();
-document.getElementById("view-btn").style.color = "#000";  // default mode
-
 // Create Map
 const map = L.map('rail-map', {
   center: defaultLoc,
@@ -54,6 +50,12 @@ highlightLayer.addTo(map);
 streetmap.getContainer().classList.add('streetmap-container');
 openrailwaymap.getContainer().classList.add('railmap-container');
 highlightLayer.getPane().classList.add('highlight-container');
+
+
+
+// Initialize
+onLoadMap();
+document.getElementById("view-btn").style.color = "#000";  // default mode
 
 
 // Events
@@ -178,13 +180,11 @@ function isRailTrack(lat, lng, zoom) {
         trackLng = tmpLng;
         trackDist = dist;
       }
-      //break;
     }
   }
 
-  // console.log(tileurl, dx, dy, isTrack);
   
-  console.log(lat, lng, " | ", trackLat, trackLng);
+  //console.log(lat, lng, " | ", trackLat, trackLng);
 
   canvas.remove();
   return {
@@ -257,4 +257,5 @@ function onSaveMap() {
 function onLoadMap() {
   let lines = localStorage.getItem("trkhl_lines");
   highlightLines = lines==null ? [] : JSON.parse(lines);
+  highlightLayer.setLatLngs(highlightLines);
 }

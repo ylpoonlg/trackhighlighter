@@ -25,18 +25,61 @@
         <img id="navbar-logo" src="./static/logo.png" />
       </div>
       <div style="margin-left: auto;"></div>
-      <button id="save-btn" class="navbar-btn" title="Save" onclick="onSaveMap();">Save</button>
+      <button class="navbar-btn" title="Upload to Cloud" onclick="toggleCloudPopup();">Upload</button>
+      <button class="navbar-btn" title="Save to Local" onclick="onSaveMap();">Save</button>
     </nav>
 
+    <!-- Map -->
     <div id="rail-map-wrapper">
       <div id="rail-map"></div>
       <div id="select-mode">
-        <button id="view-btn" class="mode-button" title="View" onclick="selectMode(MODES.view);"><span class="material-icons">pan_tool</span></button>
-        <button id="draw-btn" class="mode-button" title="Highlight" onclick="selectMode(MODES.draw);"><span class="material-icons">mode_edit</span></button>
-        <button id="erase-btn" class="mode-button" title="Erase" onclick="selectMode(MODES.erase);"><span class="material-icons">backspace</span></button>
+        <button id="view-btn" class="mode-button" title="View"
+            onclick="selectMode(MODES.view);">
+          <span class="material-icons">pan_tool</span>
+        </button>
+        <button id="draw-btn" class="mode-button" title="Highlight"
+            onclick="selectMode(MODES.draw);">
+          <span class="material-icons">mode_edit</span>
+        </button>
+        <button id="erase-btn" class="mode-button" title="Erase"
+            onclick="selectMode(MODES.erase);">
+          <span class="material-icons">backspace</span>
+        </button>
       </div>
     </div>
 
+    <!-- Cloud Popup -->
+    <div id="cloud-popup">
+      <button id="cloud-close-btn" onclick="toggleCloudPopup();">
+        <span class="material-icons">close</span>
+      </button>
+
+      <h3 class="popup-title">Cloud</h3>
+
+      <div class="input-wrapper">
+        <label for="cloud-passphrase">Passphrase</label><br>
+        <input id="cloud-passphrase" name="cloud-passphrase"
+          type="password" placeholder="Enter a passphrase">
+        <p style="display: none; padding-left: 0.8rem;">
+          * <span id="cloud-err-msg">This is an error message.</span>
+        </p>
+        <div class="row" style="justify-content: space-between; margin-top: 2rem;">
+          <button id="cloud-load-btn" class="cloud-op-btn" onclick="loadCloud();">Load</button>
+          <button id="cloud-save-btn" class="cloud-op-btn" onclick="saveCloud();">Save</button>
+        </div>
+        <p style="position: absolute; left: 0; right: 0; bottom: 0;
+          margin-bottom: 1rem; font-size: 0.8rem; text-align: center;">
+        Use a unique passphrase to avoid collision with someone else.<br>
+        <strong>This passphrase is not secured, data can be overwritten.<br>
+        Please use with caution!</strong>
+        </p>
+      </div>
+    </div>
+    <div class="popup-overlay" onclick="toggleCloudPopup();"></div>
+
+    <!-- Javascript -->
+    <script src="./static/js/sha256.js"></script>
     <script src="./static/js/map.js"></script>
+    <script src="./static/js/cloud.js"></script>
   </body>
 </html>
