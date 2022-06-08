@@ -113,6 +113,7 @@ nav .navbar-btn:hover {
 /* Cloud Popup */
 #cloud-popup {
   width: 30rem;
+  max-width: 90vw;
   height: 25em;
   display: none;
   position: absolute;
@@ -183,6 +184,7 @@ nav .navbar-btn:hover {
   border: none;
   border-radius: 0.6rem;
   padding: 0.5rem 0.8rem;
+  overflow: hidden;
 }
 
 #cloud-popup #cloud-load-btn {
@@ -215,12 +217,17 @@ nav .navbar-btn:hover {
 
 
 /* MOBILE */
-@media screen and (max-width: 512px) {
+@media screen and (max-width: 650px) {
   nav #navbar-title {
     /* display: none; */
     font-size: 50%;
     line-height: 60px;
     padding-left: 1rem;
     overflow: hidden;
+    white-space: nowrap;
+  }
+
+  nav #navbar-logo {
+    height: 50%;
   }
 }
