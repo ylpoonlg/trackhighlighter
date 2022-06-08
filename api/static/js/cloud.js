@@ -35,6 +35,7 @@ function loadCloud() {
 }
 
 function saveCloud() {
+  onSaveMap();
   resetErrMessage();
   let pphrs = document.getElementById("cloud-passphrase").value;
   let lines = localStorage.getItem("trkhl_lines");
