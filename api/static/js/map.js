@@ -64,9 +64,10 @@ map.on("mousedown", onMouseDown);
 map.on("mouseup", onMouseUp);
 map.on("mouseout", onMouseUp);
 
-document.addEventListener("touchstart", touchToMouse, true);
-document.addEventListener("touchend", touchToMouse, true);
-document.addEventListener("touchmove", touchToMouse, true);
+// Mobile Support (not working)
+// document.addEventListener("touchstart", touchToMouse, true);
+// document.addEventListener("touchend", touchToMouse, true);
+// document.addEventListener("touchmove", touchToMouse, true);
 
 function touchToMouse(e) {
   let type = "";
