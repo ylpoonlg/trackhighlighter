@@ -1,8 +1,9 @@
 var isCloudPopupShowing = false;
+var isInfoPopupShowing = false;
 
 function toggleCloudPopup() {
   const popup = document.getElementById("cloud-popup");
-  const overlay = document.getElementsByClassName("popup-overlay")[0];
+  const overlay = document.getElementById("cloud-overlay");
 
   if (isCloudPopupShowing) {
     popup.style.display = "none";
@@ -98,4 +99,23 @@ async function httpPost(url, data) {
     },
     body: JSON.stringify(data),
   });
+}
+
+
+
+
+// Info Box
+function toggleInfoPopup() {
+  const popup = document.getElementById("info-popup");
+  const overlay = document.getElementById("info-overlay");
+
+  if (isInfoPopupShowing) {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+    resetErrMessage();
+  } else {
+    popup.style.display = "block";
+    overlay.style.display = "block";
+  }
+  isInfoPopupShowing = !isInfoPopupShowing;
 }

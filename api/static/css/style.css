@@ -93,13 +93,13 @@ nav .navbar-btn:hover {
   display: flex;
   justify-content: flex-end;
   z-index: 200;
-  border-radius: 1em;
+  border-radius: 0.5em;
   overflow: hidden;
   margin: 6px;
 }
 
 .mode-button {
-  font-size: 30px;
+  font-size: 2rem;
   background-color: #ddd;
   color: #555;
   margin: 0;
@@ -108,13 +108,35 @@ nav .navbar-btn:hover {
   background-color: #aaa;
 }
 
+#info-btn {
+  font-size: 2rem;
+  background-color: #ddd;
+  color: #000;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+#relocate-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 2px;
+  color: #000;
+  background-color: #fff;
+}
+#relocate-btn:hover {
+  background-color: #f4f4f4;
+}
+#relocate-btn span {
+  font-size: 16px;
+}
 
 
-/* Cloud Popup */
-#cloud-popup {
+/* Popup */
+.popup-container {
   width: 30rem;
   max-width: 90vw;
-  height: 25em;
+  height: fit-content;
+  min-height: 25em;
   display: none;
   position: absolute;
   left: 0;
@@ -130,8 +152,7 @@ nav .navbar-btn:hover {
   font-family: sans-serif;
   box-shadow: #000 0 5px 5px;
 }
-
-#cloud-popup #cloud-close-btn {
+.popup-container .popup-close-btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -139,16 +160,27 @@ nav .navbar-btn:hover {
   background: none;
   color: #fff;
 }
-#cloud-popup #cloud-close-btn span {
+.popup-container #cloud-close-btn span {
   font-size: 2rem;
 }
-
-#cloud-popup .popup-title {
+.popup-container .popup-title {
   color: #fff;
   text-align: center;
   font-size: 2rem;
 }
+.popup-overlay {
+  position: fixed;
+  display: none;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 500;
+}
 
+
+/* Cloud Popup */
 #cloud-popup .input-wrapper {
   margin: 1.5rem 2.5rem;
 }
@@ -202,17 +234,28 @@ nav .navbar-btn:hover {
   background-color: #e9e958;
 }
 
-.popup-overlay {
-  position: fixed;
-  display: none;
-  top: 60px;
+
+/* Info Popup */
+#info-popup .txt-wrapper {
+  margin: 1.5rem;
+  margin-bottom: 5rem;
+}
+#info-popup .copyright {
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.5);
-  z-index: 500;
+  text-align: center;
+  margin-bottom: 1rem;
 }
-
+#info-popup .copyright a {
+  color: #ffff00;
+  text-decoration: none;
+}
+#info-popup .copyright a:hover {
+  color: #dddd00;
+  text-decoration: underline;
+}
 
 
 
