@@ -55,6 +55,7 @@ highlightLayer.getPane().classList.add('highlight-container');
 
 // Initialize
 onLoadMap();
+setLocation();
 document.getElementById("view-btn").style.color = "#000";  // default mode
 
 
@@ -149,8 +150,8 @@ function isRailTrack(lat, lng, zoom) {
   let tileSize = 512;
 
   let canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = tileSize;
+  canvas.height = tileSize;
   let context = canvas.getContext('2d');
 
   context.drawImage(tile, 0, 0);
@@ -260,4 +261,16 @@ function onLoadMap() {
   let lines = localStorage.getItem("trkhl_lines");
   highlightLines = lines==null ? [] : JSON.parse(lines);
   highlightLayer.setLatLngs(highlightLines);
+}
+
+function setLocation() {
+  geoip2.city((response) => {
+      let lat = response["location"]["latitude"];
+      let lon = response["location"]["longitude"];
+      //console.log(lat, lon);
+      map.setView([lat, lon], defaultZoom);
+  }, (error) => {
+      console.log(error);
+  });
+
 }

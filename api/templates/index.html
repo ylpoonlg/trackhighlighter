@@ -10,6 +10,7 @@
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+    <script src="//geoip-js.com/js/apis/geoip2/v2.1/geoip2.js"></script>
 
     <!-- Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -46,11 +47,22 @@
           <span class="material-icons">backspace</span>
         </button>
       </div>
+
+      <div style="position: absolute; left: 0; bottom: 0; z-index: 200;">
+        <button id="info-btn" title="Information" onclick="toggleInfoPopup();">
+          <span class="material-icons">info</span>
+        </button>
+      </div>
+      <div style="position: absolute; left: 12px; top: 85px; z-index: 200;">
+        <button id="relocate-btn" title="Re-center" onclick="setLocation();">
+          <span class="material-icons">my_location</span>
+        </button>
+      </div>
     </div>
 
     <!-- Cloud Popup -->
-    <div id="cloud-popup">
-      <button id="cloud-close-btn" onclick="toggleCloudPopup();">
+    <div id="cloud-popup" class="popup-container">
+      <button id="cloud-close-btn" class="popup-close-btn" onclick="toggleCloudPopup();">
         <span class="material-icons">close</span>
       </button>
 
@@ -75,7 +87,39 @@
         </p>
       </div>
     </div>
-    <div class="popup-overlay" onclick="toggleCloudPopup();"></div>
+    <div id="cloud-overlay" class="popup-overlay" onclick="toggleCloudPopup();"></div>
+
+
+    
+    <!-- Info -->
+    <div id="info-popup" class="popup-container">
+      <button class="popup-close-btn" onclick="toggleInfoPopup();">
+        <span class="material-icons">close</span>
+      </button>
+      <h3 class="popup-title">Information</h3>
+      <div class="txt-wrapper">
+        <p style="font-size: 1.2rem;">
+        <strong>Thank you for using TrackHighlighter!</strong><br><br>
+          TrackHighlighter is a tool for you to highlight all railway tracks that you've been to.
+          <br><br>
+          Start by selecting the highlighter tool on the top right corner, then draw on tracks to highlight them.
+          <br><br>
+          Click save to save on browser,
+          or click upload to save to and load from cloud with a passphrase.
+        </p>
+      </div>
+
+      <div class="copyright">
+        <p>
+          &copy;
+          <a target="_blank" href="https://github.com/ylpoonlg">ylpoonlg</a>
+          2022
+        </p>
+      </div>
+    </div>
+    <div id="info-overlay" class="popup-overlay" onclick="toggleInfoPopup();"></div>
+
+
 
     <!-- Javascript -->
     <script src="./static/js/sha256.js"></script>
